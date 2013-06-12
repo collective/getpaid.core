@@ -35,7 +35,7 @@ try:
     from zope.location.interfaces import ILocation
 except ImportError:
     # BBB for Zope 2.10
-    from zope.app.container.interfaces import ILocation
+    from zope.container.interfaces import ILocation
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.intid.interfaces import IIntIds
 
