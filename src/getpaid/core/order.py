@@ -39,7 +39,7 @@ from zope.i18nmessageid import MessageFactory
 from zope.index.keyword  import KeywordIndex
 from zope.schema.fieldproperty import FieldProperty
 
-from zope.app.container.btree import BTreeContainer
+from zope.container.btree import BTreeContainer
 from hurry.workflow.interfaces import IWorkflowState, IWorkflowInfo
 
 from zope.annotation.interfaces import IAttributeAnnotatable

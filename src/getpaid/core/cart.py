@@ -30,7 +30,7 @@ import decimal
 from zope import component
 from zope.interface import implements
 
-from zope.app.container.ordered import OrderedContainer
+from zope.container.ordered import OrderedContainer
 
 from zope.annotation.interfaces import IAttributeAnnotatable
 

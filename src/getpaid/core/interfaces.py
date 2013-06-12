@@ -29,7 +29,7 @@ from zope.interface import Interface, Attribute, classImplements, implements
 from zope import schema
 from zope.component.interfaces import IObjectEvent
 from zope.component.interfaces import ObjectEvent
-from zope.app.container.interfaces import IContainer
+from zope.container.interfaces import IContainer
 from zope.schema.interfaces import ITextLine
 from zope.schema.vocabulary import SimpleVocabulary
 from fields import PhoneNumber, CreditCardNumber, weightValidator, emailValidator
