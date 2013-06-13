@@ -40,7 +40,7 @@ from zope.index.keyword  import KeywordIndex
 from zope.schema.fieldproperty import FieldProperty
 
 from zope.container.btree import BTreeContainer
-from hurry.workflow.interfaces import IWorkflowState, IWorkflowInfo
+from getpaid.hurry.workflow.interfaces import IWorkflowState, IWorkflowInfo
 
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.annotation.interfaces import IAnnotations

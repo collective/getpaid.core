@@ -32,7 +32,7 @@ from zope.app.testing import placelesssetup, ztapi
 from zope.annotation import interfaces as annotation_interfaces
 from zope.annotation import attribute
 
-from hurry.workflow import interfaces
+from getpaid.hurry.workflow import interfaces
 
 import random, string
 

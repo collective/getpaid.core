@@ -39,7 +39,7 @@ except ImportError:
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.intid.interfaces import IIntIds
 
-from hurry.workflow.interfaces import IWorkflowState, IWorkflowInfo
+from getpaid.hurry.workflow.interfaces import IWorkflowState, IWorkflowInfo
 from getpaid.core import interfaces
 
 

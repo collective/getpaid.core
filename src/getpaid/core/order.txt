@@ -140,7 +140,7 @@ fulfillment. We can introspect orders to classify by them interface
 and adapt to the appropriate workflows. As a consequence we can support
 online and shipping based from the same order management system.
 and support virtual delivery, and a shipping lifecycle. we
-utilize hurry.workflow to implement our workflows, one benefits to
+utilize getpaid.hurry.workflow to implement our workflows, one benefits to
 make this lifecycle observable via event subscribers.
 
 

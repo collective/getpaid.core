@@ -9,20 +9,20 @@
   <subscriber
      handler=".order.recordOrderWorkflow"
      for=".interfaces.IOrder
-          hurry.workflow.interfaces.IWorkflowTransitionEvent"
+          getpaid.hurry.workflow.interfaces.IWorkflowTransitionEvent"
      />
 
   <!-- Fire Automatic finance state transitions -->
   <subscriber
      handler=".payment.fireAutomaticTransitions"
      for=".interfaces.IOrder
-	  hurry.workflow.interfaces.IWorkflowTransitionEvent"
+	  getpaid.hurry.workflow.interfaces.IWorkflowTransitionEvent"
      />
      
   <!-- Reindex Orders on workflow changes -->
   <subscriber
      for=".interfaces.IOrder
-	  hurry.workflow.interfaces.IWorkflowTransitionEvent"
+	  getpaid.hurry.workflow.interfaces.IWorkflowTransitionEvent"
      handler=".order.reindexOrder"
      />
 
@@ -44,7 +44,7 @@
   <subscriber
      handler=".payment.processorWorkflowSubscriber"
      for=".interfaces.IOrder
-	  hurry.workflow.interfaces.IWorkflowTransitionEvent"
+	  getpaid.hurry.workflow.interfaces.IWorkflowTransitionEvent"
      />
 
   <adapter

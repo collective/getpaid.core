@@ -4,45 +4,45 @@
   <!-- Wire up default storage of workflow state -->
   <adapter
      for="zope.annotation.interfaces.IAttributeAnnotatable"
-     provides="hurry.workflow.interfaces.IWorkflowState"
-     factory="hurry.workflow.workflow.WorkflowState"/>
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowState"
+     factory="getpaid.hurry.workflow.workflow.WorkflowState"/>
 
   <!-- Item Fulfillment Workflow -->
   <adapter
      for="..interfaces.ILineItem"
-     provides="hurry.workflow.interfaces.IWorkflowInfo"
-     factory="hurry.workflow.workflow.WorkflowInfo"/>
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowInfo"
+     factory="getpaid.hurry.workflow.workflow.WorkflowInfo"/>
 
   <adapter
      for="..interfaces.ILineItem"
-     provides="hurry.workflow.interfaces.IWorkflow"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflow"
      factory=".item.ItemWorkflowAdapter"/>
 
   <!-- Shipment Fulfillment Workflow 
   <adapter
      for="..interfaces.IShipment"
-     provides="hurry.workflow.interfaces.IWorkflow"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflow"
      factory=".shipment.ShipmentWorkflow"/>
   -->
 
   <!-- Order Finance Parallel Workflow -->
   <adapter
      for="..interfaces.IOrder"
-     provides="hurry.workflow.interfaces.IWorkflowState"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowState"
      name="order.finance"
      factory=".order.FinanceState"
      />
 
   <adapter
      for="..interfaces.IOrder"
-     provides="hurry.workflow.interfaces.IWorkflowInfo"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowInfo"
      name="order.finance"
      factory=".order.FinanceInfo"
      />
 
   <adapter
      for="..interfaces.IOrder"
-     provides="hurry.workflow.interfaces.IWorkflow"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflow"
      name="order.finance"
      factory=".order.FinanceWorkflowAdapter"
      />
@@ -50,21 +50,21 @@
   <!-- Order Fulfillment Parallel Workflow -->
   <adapter
      for="..interfaces.IOrder"
-     provides="hurry.workflow.interfaces.IWorkflowState"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowState"
      name="order.fulfillment"
      factory=".order.FulfillmentState"
      />
 
   <adapter
      for="..interfaces.IOrder"
-     provides="hurry.workflow.interfaces.IWorkflowInfo"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowInfo"
      name="order.fulfillment"
      factory=".order.FulfillmentInfo"
      />
 
   <adapter
      for="..interfaces.IOrder"
-     provides="hurry.workflow.interfaces.IWorkflow"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflow"
      name="order.fulfillment"
      factory=".order.FulfillmentWorkflowAdapter"
      />
@@ -72,21 +72,21 @@
   <!-- Shipable Order Fulfillment Parallel Workflow -->
   <adapter
      for="..interfaces.IShippableOrder"
-     provides="hurry.workflow.interfaces.IWorkflowState"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowState"
      name="order.fulfillment"
      factory=".order.ShippableFulfillmentState"
      />
 
   <adapter
      for="..interfaces.IShippableOrder"
-     provides="hurry.workflow.interfaces.IWorkflowInfo"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowInfo"
      name="order.fulfillment"
      factory=".order.ShippableFulfillmentInfo"
      />
 
   <adapter
      for="..interfaces.IShippableOrder"
-     provides="hurry.workflow.interfaces.IWorkflow"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflow"
      name="order.fulfillment"
      factory=".order.ShippableFulfillmentWorkflowAdapter"
      />
@@ -94,30 +94,30 @@
   <!-- Shippable Order Finance Parallel Workflow -->
   <adapter
      for="..interfaces.IShippableOrder"
-     provides="hurry.workflow.interfaces.IWorkflowState"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowState"
      name="order.finance"
      factory=".order.FinanceState"
      />
 
   <adapter
      for="..interfaces.IShippableOrder"
-     provides="hurry.workflow.interfaces.IWorkflowInfo"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowInfo"
      name="order.finance"
      factory=".order.FinanceInfo"
      />
 
   <adapter
      for="..interfaces.IShippableOrder"
-     provides="hurry.workflow.interfaces.IWorkflow"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflow"
      name="order.finance"
      factory=".order.FinanceWorkflowAdapter"
      />
 
   <!-- Getpaid doesn't really use versioning capabilities of
-  hurry.workflow at all, we just register a dummy implementation
+  getpaid.hurry.workflow at all, we just register a dummy implementation
   to satisfy the hurry runtime -->
   <utility
-     provides="hurry.workflow.interfaces.IWorkflowVersions"
+     provides="getpaid.hurry.workflow.interfaces.IWorkflowVersions"
      factory=".store.StoreVersions"
      />
 

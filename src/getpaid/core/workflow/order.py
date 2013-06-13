@@ -28,8 +28,8 @@ $Id$
 
 from zope import interface
 
-from hurry.workflow import interfaces as iworkflow
-from hurry.workflow import workflow
+from getpaid.hurry.workflow import interfaces as iworkflow
+from getpaid.hurry.workflow import workflow
 
 from getpaid.core.interfaces import workflow_states, IOrder, IPaymentProcessor, IDefaultFinanceWorkflow
 from zope import component

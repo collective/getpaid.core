@@ -51,7 +51,7 @@ setup(
     package_dir={'':'src'},
     namespace_packages=['getpaid'],
     include_package_data=True,
-    install_requires = [ 'hurry.workflow',
+    install_requires = [ 'getpaid.hurry.workflow',
                          'setuptools',
                          'zope.annotation',
                          'zope.index',

@@ -25,7 +25,7 @@
 $Id$
 """
 
-from hurry.workflow import workflow, interfaces
+from getpaid.hurry.workflow import workflow, interfaces
 from cStringIO import StringIO
 
 

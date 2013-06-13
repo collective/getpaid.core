@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 
-from hurry.workflow import workflow
+from getpaid.hurry.workflow import workflow
 
 class StoreVersions( workflow.WorkflowVersions ):
 

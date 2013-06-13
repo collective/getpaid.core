@@ -61,8 +61,8 @@ $Id$
 
 from zope.interface import implements
 
-from hurry.workflow import interfaces as iworkflow
-from hurry.workflow import workflow
+from getpaid.hurry.workflow import interfaces as iworkflow
+from getpaid.hurry.workflow import workflow
 
 from getpaid.core.interfaces import workflow_states
 from zope.i18nmessageid import MessageFactory
