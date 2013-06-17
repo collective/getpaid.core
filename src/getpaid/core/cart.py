@@ -36,39 +36,40 @@ from zope.annotation.interfaces import IAttributeAnnotatable
 
 import interfaces
 
-class ShoppingCart( OrderedContainer ):
+
+class ShoppingCart(OrderedContainer):
     """
     A shopping cart
     """
-    implements( interfaces.IShoppingCart, IAttributeAnnotatable )
+    implements(interfaces.IShoppingCart, IAttributeAnnotatable)
 
     last_item = None
-    
-    def size( self ):
+
+    def size(self):
         return sum(i.quantity for i in self.values())
-    
-    def __setitem__( self, key, value ):
+
+    def __setitem__(self, key, value):
         if self.size() and interfaces.IRecurringLineItem.providedBy(value):
             msg = "Unable to add recurring item to cart with existing items."
             raise interfaces.AddRecurringItemException(msg)
-            
+
         if self.is_recurring():
             msg = "Unable to add new item to cart with an existing recurring item."
             raise interfaces.RecurringCartItemAdditionException(msg)
-        
-        super(ShoppingCart, self).__setitem__( key, value)
+
+        super(ShoppingCart, self).__setitem__(key, value)
         self.last_item = key
-    
-    def __delitem__( self, key ):
+
+    def __delitem__(self, key):
         if not key in self:
             return
-        super( ShoppingCart, self).__delitem__( key )
+        super(ShoppingCart, self).__delitem__(key)
         if self.last_item == key:
-            if len(self)>0:
+            if len(self) > 0:
                 self.last_item = self.keys()[-1]
             else:
                 self.last_item = None
-    
+
     def is_recurring(self):
         recurring = 0
         non_recurring = 0
@@ -79,50 +80,53 @@ class ShoppingCart( OrderedContainer ):
                 non_recurring += 1
 
         if recurring > 0 and non_recurring > 0:
-            raise Exception('Carts containing both recurring and non-recurring items '
+            raise Exception('Carts containing both recurring '
+                            'and non-recurring items '
                             'are not supported.')
         elif recurring > 1:
-            raise Exception('Carts containing multiple recurring items not supported.')
+            raise Exception('Carts containing multiple recurring '
+                            'items not supported.')
         elif recurring == 1:
             return True
         return False
 
 
-class CartItemTotals( object ):
+class CartItemTotals(object):
 
-    implements( interfaces.ILineContainerTotals )
-    
-    def __init__( self, context ):
+    implements(interfaces.ILineContainerTotals)
+
+    def __init__(self, context):
         self.shopping_cart = context
 
-    def getTotalPrice( self ):
+    def getTotalPrice(self):
         if not self.shopping_cart:
             return 0
-        
+
         total = 0
         total += float(self.getSubTotalPrice())
         total += float(self.getShippingCost())
         for tax in self.getTaxCost():
             total += tax['value']
-        
-        return float( str( total ) )            
 
-    def getSubTotalPrice( self ):
+        return float(str(total))
+
+    def getSubTotalPrice(self):
         if not self.shopping_cart:
             return 0
         total = 0
         for item in self.shopping_cart.values():
-            d = decimal.Decimal ( str(item.cost ) ) * item.quantity
-            total += d        
+            d = decimal.Decimal(str(item.cost)) * item.quantity
+            total += d
         return total
-        
-    def getShippingCost( self ):
-        if not interfaces.IShippableOrder.providedBy( self ):
+
+    def getShippingCost(self):
+        if not interfaces.IShippableOrder.providedBy(self):
             return 0
-        return decimal.Decimal( str( self.shipping_cost ) )
+        return decimal.Decimal(str(self.shipping_cost))
 
-    def getTaxCost( self ):
+    def getTaxCost(self):
         """ get the list of dictionaries containing the tax info """
-        tax_utility = component.getUtility( interfaces.ITaxUtility )
-        return tax_utility.getTaxes( self )
+        tax_utility = component.getUtility(interfaces.ITaxUtility)
+        return tax_utility.getTaxes(self)
 
+#EOF

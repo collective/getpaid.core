@@ -32,14 +32,18 @@ from zope.component.interfaces import ObjectEvent
 from zope.container.interfaces import IContainer
 from zope.schema.interfaces import ITextLine
 from zope.schema.vocabulary import SimpleVocabulary
-from fields import PhoneNumber, CreditCardNumber, weightValidator, emailValidator
+from fields import PhoneNumber, CreditCardNumber, \
+        weightValidator, emailValidator
 from zope.i18nmessageid import MessageFactory
 _ = MessageFactory('getpaid')
 
 #################################
 # Exceptions
+
+
 class AddRecurringItemException(Exception):
     pass
+
 
 class RecurringCartItemAdditionException(Exception):
     pass
@@ -47,11 +51,14 @@ class RecurringCartItemAdditionException(Exception):
 #################################
 # Where to Buy Stuff
 
-class IStore( Interface ):
-    """ represents a getpaid installation, should be a local site w/ getpaid local components installed
+
+class IStore(Interface):
+    """ represents a getpaid installation, should be a
+    local site w/ getpaid local components installed
     """
 
-class IPersistentOptions( Interface ):
+
+class IPersistentOptions(Interface):
     """
     a base interface that our persistent option annotation settings,
     can adapt to. specific schemas that want to have context stored
@@ -60,18 +67,24 @@ class IPersistentOptions( Interface ):
     settings = IMySettings(context)
     """
 
-class IStoreSettings( IPersistentOptions ):
-    """ minimum configuration schema for a store, pgp product has examples of many more.
-    
-    TODO: there some duplication here between PGP interfaces for store configuration and the ones here.
-    the ones here are for usage without plone... ie z3 unit tests, and z3 stores. ideally the ones
-    in pgp would be derived from these.. which needs parallel work to fix up translations.
+
+class IStoreSettings(IPersistentOptions):
+    """ minimum configuration schema for a store, pgp product has examples
+    of many more.
+
+    TODO: there some duplication here between PGP interfaces for store
+    configuration and the ones here.  the ones here are for usage without
+    plone... ie z3 unit tests, and z3 stores. ideally the ones
+    in pgp would be derived from these.. which needs parallel work to fix up
+    translations.
     """
-    
-    shipping_method = schema.Choice( title = _(u"Shipping Method"),
-                                    description = _(u"Select a method to calculate shipping charges for orders in your store."),
-                                     required = True,
-                                     source = "getpaid.shipping_methods" )
+
+    shipping_method = schema.Choice(
+        title=_(u"Shipping Method"),
+        description=_(u"Select a method to calculate shipping "
+                      "charges for orders in your store."),
+        required=True,
+        source="getpaid.shipping_methods")
 
     store_name = schema.TextLine( title = _(u"Store/Organization Name"),
                                   required = True,
