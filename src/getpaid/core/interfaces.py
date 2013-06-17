@@ -86,105 +86,125 @@ class IStoreSettings(IPersistentOptions):
         required=True,
         source="getpaid.shipping_methods")
 
-    store_name = schema.TextLine( title = _(u"Store/Organization Name"),
-                                  required = True,
-                                  default = u"" )
+    store_name = schema.TextLine(
+        title=_(u"Store/Organization Name"),
+        required=True,
+        default=u""
+    )
 
-    contact_name = schema.TextLine( title = _(u"Contact Name"),
-                                    required = False,
-                                    default = u"" )
-                                    
+    contact_name = schema.TextLine(
+        title=_(u"Contact Name"),
+        required=False,
+        default=u""
+    )
 
-    contact_email = schema.TextLine( title = _(u"Contact Email"),
-                                  required = False,
-                                  default = u""
-                                )
-                                
-    contact_company = schema.TextLine( title = _(u"Contact Company"),
-                              required = False,
-                              default = u""
-                            )
+    contact_email = schema.TextLine(
+        title=_(u"Contact Email"),
+        required=False,
+        default=u""
+    )
 
-    contact_address = schema.TextLine( title = _(u"Contact Address"),
-                                       required = False,
-                                       default = u""
-                                     )
-                                
-    contact_address2 = schema.TextLine( title = _(u"Contact Address2"),
-                                        required = False,
-                                        default = u""
-                                      )
+    contact_company = schema.TextLine(
+        title=_(u"Contact Company"),
+        required=False,
+        default=u""
+    )
 
-    contact_city = schema.TextLine( title = _(u"Contact City"),
-                                    required = False,
-                                    default = u""
-                                  )
+    contact_address = schema.TextLine(
+        title=_(u"Contact Address"),
+        required=False,
+        default=u""
+    )
 
-    contact_country = schema.Choice( title = _(u"Contact Country"),
-                                     required = False,
-                                     vocabulary = "getpaid.countries"
-                                   )
+    contact_address2 = schema.TextLine(
+        title=_(u"Contact Address2"),
+        required=False,
+        default=u""
+    )
 
-    contact_state = schema.Choice( title = _(u"Contact State/Province"),
-                                   required = False,
-                                   vocabulary = "getpaid.states"
-                                 )
+    contact_city = schema.TextLine(
+        title=_(u"Contact City"),
+        required=False,
+        default=u""
+    )
 
-    contact_postalcode = schema.TextLine( title = _(u"Contact Zip/Postal Code"),
-                                          required = False,
-                                          default = u""
-                                        )
+    contact_country = schema.Choice(
+        title=_(u"Contact Country"),
+        required=False,
+        vocabulary="getpaid.countries"
+    )
 
-    contact_phone = PhoneNumber( title = _(u"Contact Phone"),
-                                 description = _(u"Only digits allowed"),
-                                     required = False,
-                                     default = u""
-                                   )
+    contact_state = schema.Choice(
+        title=_(u"Contact State/Province"),
+        required=False,
+        vocabulary="getpaid.states"
+    )
 
-    contact_fax = schema.TextLine( title = _(u"Contact Fax"),
-                                   required = False,
-                                   default = u""
-                                 )
+    contact_postalcode = schema.TextLine(
+        title=_(u"Contact Zip/Postal Code"),
+        required=False,
+        default=u""
+    )
 
-    tax_ein = schema.TextLine( title= _(u"Tax Identification Number"),
-                               required = False,
-                               default=u"")
+    contact_phone = PhoneNumber(
+        title=_(u"Contact Phone"),
+        description=_(u"Only digits allowed"),
+        required=False,
+        default=u""
+    )
+
+    contact_fax = schema.TextLine(
+        title=_(u"Contact Fax"),
+        required=False,
+        default=u""
+    )
+
+    tax_ein = schema.TextLine(
+        title=_(u"Tax Identification Number"),
+        required=False,
+        default=u""
+    )
 
 
 #################################
 # Plugin Management
 
-class IPluginManager( Interface ):
+class IPluginManager(Interface):
     """
     a lifecycle manager for a single plugin
     """
-    
+
     title = schema.TextLine(title=_(u"Title"))
-    description = schema.TextLine(title=_(u"Description"))  
-    
-    def install( ):
+    description = schema.TextLine(title=_(u"Description"))
+
+    def install():
         """install the plugin"""
-        
-    def uninstall( remove_data=False ):
-        """ 
+
+    def uninstall(remove_data=False):
+        """
         uninstall the plugin, if remove data is true, the plugin
         should remove its persistent state.
         """
-        
+
     def status():
         """ return true if installed, else false """
 
-class IStoreInstalledEvent( IObjectEvent ):
+
+class IStoreInstalledEvent(IObjectEvent):
     """ object event for store installation, and plugin installation """
-    
-class StoreInstalled( ObjectEvent ):
-    implements( IStoreInstalledEvent )
-    
-class IStoreUninstallEvent( IObjectEvent ):
+
+
+class StoreInstalled(ObjectEvent):
+    implements(IStoreInstalledEvent)
+
+
+class IStoreUninstallEvent(IObjectEvent):
     """ object event for store uninstallation, and plugin removal """
-    
-class StoreUninstalled( ObjectEvent ):
-    implements( IStoreUninstallEvent )
+
+
+class StoreUninstalled(ObjectEvent):
+    implements(IStoreUninstallEvent)
+
 
 class IFormSchemas(Interface):
     """
@@ -208,61 +228,87 @@ class IFormSchemas(Interface):
 #################################
 # Stuff To Buy
 
-class IPayable( Interface ):
+
+class IPayable(Interface):
     """
-    An object which can be paid for. Payables are typically gotten via adapation between
-    a context and the request, to allow for pricing / display customization on a user
+    An object which can be paid for. Payables are typically gotten
+    via adapation between a context and the request, to allow for
+    pricing / display customization on a user
     basis.
     """
 
     made_payable_by = schema.TextLine(
-        title = _(u"Made Payable By"),
-        readonly = True,
-        required = False
-        )
+        title=_(u"Made Payable By"),
+        readonly=True,
+        required=False
+    )
 
-    product_code = schema.TextLine( title = _(u"Product Code"),
-                        description=_(u"An organization's unique product identifier (not required since shopping cart uses content UID internally)"),
-                        required=False
-                        )
-    price = schema.Float( title = _(u"Price"), required=True)
+    product_code = schema.TextLine(
+        title=_(u"Product Code"),
+        description=_(u"An organization's unique product identifier "
+                      "(not required since shopping cart uses content "
+                      "UID internally)"),
+        required=False
+    )
 
-class IDonationContent( IPayable ):
+    price = schema.Float(
+        title=_(u"Price"),
+        required=True
+    )
+
+
+class IDonationContent(IPayable):
     """ Donation
     """
-    donation_text = schema.TextLine( title = _(u"Donation Description"),
-                        description=_(u"Very brief 50 character text (that shows up in portlet)"),
-                        required=True,
-                        max_length=50)
+    donation_text = schema.TextLine(
+        title=_(u"Donation Description"),
+        description=_(u"Very brief 50 character text (that shows up "
+                      "in portlet)"),
+        required=True,
+        max_length=50
+    )
 
-class IVariableAmountDonationContent( IPayable ):
+
+class IVariableAmountDonationContent(IPayable):
     """ Variable Amount Donation
     """
-    donation_text = schema.TextLine( title = _(u"Donation Description"),
-                        description=_(u"Very brief 50 character text (that shows up in portlet)"),
-                        required=True,
-                        max_length=50)
-    price = schema.Float( title = _(u"Price"), required=False)
+    donation_text = schema.TextLine(
+        title=_(u"Donation Description"),
+        description=_(u"Very brief 50 character text (that shows up in "
+                      "portlet)"),
+        required=True,
+        max_length=50
+    )
 
-class ISubscription( IPayable ):
+    price = schema.Float(
+        title=_(u"Price"),
+        required=False
+    )
+
+
+class ISubscription(IPayable):
     """ Subscription
     """
 
-class IBuyableContent( IPayable ):
+
+class IBuyableContent(IPayable):
     """ Purchasable Content Delivered Virtually
     """
 
-class IPremiumContent( IPayable ):
+
+class IPremiumContent(IPayable):
     """ Premium Content for Subscriptions
     """
 
-class IPhysicalPayable( IPayable ):
+
+class IPhysicalPayable(IPayable):
     """
     """
 
 
 UNIT_POUNDS = _(u"lbs")
 UNIT_KILOGRAMS = _(u"kgs")
+
 
 class IShippableContent( IPayable ):
     """ Shippable Content
@@ -784,13 +830,17 @@ class IOrderWorkflowEntry( Interface ):
 
 class IPhoneNumber(ITextLine):
     """A Text line field that handles phone number input."""
-    
-classImplements(PhoneNumber,IPhoneNumber)
+
+
+classImplements(PhoneNumber, IPhoneNumber)
 
 
 class ICreditCardNumber(ITextLine):
     """A Text line field that handles credit card input."""
-classImplements(CreditCardNumber,ICreditCardNumber)
+
+
+classImplements(CreditCardNumber, ICreditCardNumber)
+
 
 class ICreditCardTypeEnumerator(Interface):
     """Responsible for listing credit card types. """
@@ -801,12 +851,13 @@ class ICreditCardTypeEnumerator(Interface):
     def allCreditCardTypes(self):
         """ List all credit card types. """
 
+
 class keys:
     """ public annotation keys and static variables
     """
 
     # how much of the order have we charged
-    capture_amount= 'getpaid.capture_amount'
+    capture_amount = 'getpaid.capture_amount'
 
     # processor specific txn id for an order
     processor_txn_id = 'getpaid.processor.uid'
@@ -817,6 +868,7 @@ class keys:
     # sucessful call to a processor
     results_success = 1
     results_async = 2
+
 
 class workflow_states:
 
@@ -846,7 +898,7 @@ class workflow_states:
             WILL_NOT_DELIVER = 'WILL_NOT_DELIVER'
 
     class shippable_order:
-          
+
         class fulfillment:
             # name of parallel workflow
             name = "order.fulfillment"
@@ -857,8 +909,6 @@ class workflow_states:
             DELIVERED = 'SHIPPED'
             WILL_NOT_DELIVER = 'WILL_NOT_DELIVER'
 
-
-            
     class item:
         NEW = 'NEW'
         PROCESSING = 'PROCESSING'
