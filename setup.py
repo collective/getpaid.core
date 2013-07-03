@@ -70,7 +70,7 @@ setup(
         'getpaid.wizard',
         'getpaid.nullpayment'
     ],
-zip_safe=False,
+    zip_safe=False,
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
