@@ -11,6 +11,7 @@ Distutils setup
 import os
 from setuptools import setup, find_packages
 
+
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
@@ -19,11 +20,11 @@ version = '0.9.3dev'
 setup(
     name='getpaid.core',
     version=version,
-    license = 'ZPL2.1',
+    license='ZPL2.1',
     author='Getpaid Community',
     author_email='getpaid-dev@googlegroups.com',
     description='Core ecommerce functionality for zope and python projects',
-    long_description = (
+    long_description=(
         read('README.txt')
         + '\n' +
         read('CHANGES.txt')
@@ -31,12 +32,12 @@ setup(
         'Detailed Documentation\n'
         '**********************\n'
         + '\n' +
-        read('src', 'getpaid', 'core', 'order.txt')
+        read('getpaid', 'core', 'order.txt')
         + '\n' +
         'Download\n'
         '**********************\n'
         ),
-    classifiers = [
+    classifiers=[
         "Framework :: Plone",
         "Framework :: Zope3",
         "Programming Language :: Python",
@@ -46,19 +47,22 @@ setup(
         "Topic :: Office/Business :: Financial",
         "Topic :: Software Development :: Libraries",
         ],
-    url='http://code.google.com/p/getpaid',
-    packages=find_packages('src'),
-    package_dir={'':'src'},
+    url='https://github.com/collective/getpaid.core',
+    packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
     namespace_packages=['getpaid'],
     include_package_data=True,
-    install_requires = [ 'getpaid.hurry.workflow',
-                         'setuptools',
-                         'zope.annotation',
-                         'zope.index',
-                         'zope.interface',
-                         'zope.intid',
-                         'zope.event',
-                         'zope.schema',
-                       ],
-    zip_safe = False,
-    )
+    install_requires=['getpaid.hurry.workflow',
+                      'setuptools',
+                      'zope.annotation',
+                      'zope.index',
+                      'zope.interface',
+                      'zope.intid',
+                      'zope.event',
+                      'zope.schema',
+                     ],
+    zip_safe=False,
+    entry_points="""
+    [z3c.autoinclude.plugin]
+    target = plone
+    """,
+)
