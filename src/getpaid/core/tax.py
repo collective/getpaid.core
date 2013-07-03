@@ -32,9 +32,16 @@ from getpaid.core import interfaces
 from zope.i18nmessageid.message import MessageFactory
 _ = MessageFactory('getpaid')
 
-class TaxUtility( object ):
 
-    implements( interfaces.ITaxUtility )
+class TaxUtility(object):
 
-    def getTaxes( self, order ):
-        return ({"name": _("Tax"), "value": 0, "id": "dummy"},)
+    implements(interfaces.ITaxUtility)
+
+    def getTaxes(self, order):
+        return ({
+            "name": _("Tax"),
+            "value": 0,
+            "id": "dummy"
+        },)
+
+#EOF

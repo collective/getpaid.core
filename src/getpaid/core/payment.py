@@ -23,11 +23,11 @@
 
 """
 
-workflow event driven payment processor integration and property bags needed for
-an order.
+workflow event driven payment processor integration and property bags needed
+for an order.
 """
 
-from getpaid.core import interfaces, options 
+from getpaid.core import interfaces, options
 from zope import component, interface
 
 try:
@@ -35,57 +35,75 @@ try:
 except ImportError:
     from zope.app.component.hooks import getSite
 
-class Address( options.PersistentBag ): pass
-Address.initclass( interfaces.IAddress  )    
-    
-class ShippingAddress( options.PersistentBag ): pass
-ShippingAddress.initclass( interfaces.IShippingAddress )    
- 
-class BillingAddress( options.PersistentBag ): pass
-BillingAddress.initclass( interfaces.IBillingAddress )    
-    
-class ContactInformation( options.PersistentBag ): pass
-ContactInformation.initclass( interfaces.IUserContactInformation )    
-    
-def fireAutomaticTransitions( order, event ):    
-    """ fire automatic transitions for a new state """ 
+
+class Address(options.PersistentBag):
+    pass
+
+Address.initclass(interfaces.IAddress)
+
+
+class ShippingAddress(options.PersistentBag):
+    pass
+
+ShippingAddress.initclass(interfaces.IShippingAddress)
+
+
+class BillingAddress(options.PersistentBag):
+    pass
+
+BillingAddress.initclass(interfaces.IBillingAddress)
+
+
+class ContactInformation(options.PersistentBag):
+    pass
+
+ContactInformation.initclass(interfaces.IUserContactInformation)
+
+
+def fireAutomaticTransitions(order, event):
+    """ fire automatic transitions for a new state """
     order.finance_workflow.fireAutomatic()
 
 
-def processorWorkflowSubscriber( order, event ):
+def processorWorkflowSubscriber(order, event):
     """
     fire off transition from charging to charged or declined based on
     payment processor interaction.
     """
 
-    # check for a payment processor associated with the 
-    # there is a default notion here that the workflows for finance / fulfillment can't share state names
-    # 
+    # check for a payment processor associated with the there is a default
+    # notion here that the workflows for finance / fulfillment can't share
+    # state names
+    #
     if order.finance_state == event.destination:
-        adapter = component.queryMultiAdapter( (order, order.finance_workflow.workflow() ),
-                                               interfaces.IWorkflowPaymentProcessorIntegration )
-                                               
+        adapter = component.queryMultiAdapter(
+            (order, order.finance_workflow.workflow()),
+            interfaces.IWorkflowPaymentProcessorIntegration)
+
     elif order.fulfillment_state == event.destination:
-        adapter = component.queryMultiAdapter( (order, order.fulfillment_workflow.workflow() ),
-                                               interfaces.IWorkflowPaymentProcessorIntegration )
+        adapter = component.queryMultiAdapter(
+            (order, order.fulfillment_workflow.workflow()),
+            interfaces.IWorkflowPaymentProcessorIntegration)
     else:
         return
-                                              
+
     if adapter is None:
         return
 
-    return adapter( event )
+    return adapter(event)
 
-class DefaultFinanceProcessorIntegration( object ):
-    
-    interface.implements( interfaces.IWorkflowPaymentProcessorIntegration )
-    
-    def __init__( self, order, workflow):
+
+class DefaultFinanceProcessorIntegration(object):
+
+    interface.implements(interfaces.IWorkflowPaymentProcessorIntegration)
+
+    def __init__(self, order, workflow):
         self.order = order
         self.workflow = workflow
-        
-    def __call__( self, event ):
-        if event.destination != interfaces.workflow_states.order.finance.CHARGING:
+
+    def __call__(self, event):
+        if event.destination != \
+           interfaces.workflow_states.order.finance.CHARGING:
             return
 
         # on orders without any cost, forgo invoking the payment processor
@@ -97,21 +115,24 @@ class DefaultFinanceProcessorIntegration( object ):
         if context is None:
             context = getSite()
 
-        processor = component.getAdapter( context,
+        processor = component.getAdapter(context,
                                           interfaces.IPaymentProcessor,
-                                          self.order.processor_id )
+                                          self.order.processor_id)
 
-        result = processor.capture( self.order, self.order.getTotalPrice() )
-    
+        result = processor.capture(self.order, self.order.getTotalPrice())
+
         if result == interfaces.keys.results_async:
             return
         elif result == interfaces.keys.results_success:
-            self.order.finance_workflow.fireTransition('charge-charging')
+            self.order.finance_workflow.fireTransition(
+                'charge-charging')
         else:
-            self.order.finance_workflow.fireTransition('decline-charging', comment=result)
+            self.order.finance_workflow.fireTransition(
+                'decline-charging', comment=result)
 
 
-CREDIT_CARD_TYPES = ( u"Visa", u"MasterCard", u"Discover", u"American Express" )
+CREDIT_CARD_TYPES = (u"Visa", u"MasterCard", u"Discover", u"American Express")
+
 
 class CreditCardTypeEnumerator(object):
     interface.implements(interfaces.ICreditCardTypeEnumerator)
@@ -124,3 +145,5 @@ class CreditCardTypeEnumerator(object):
 
     def allCreditCardTypes(self):
         return CREDIT_CARD_TYPES
+
+#EOF

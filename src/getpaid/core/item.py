@@ -43,17 +43,17 @@ from getpaid.hurry.workflow.interfaces import IWorkflowState, IWorkflowInfo
 from getpaid.core import interfaces
 
 
-class LineItem( Persistent ):
+class LineItem(Persistent):
     """
     an item in the cart
 
-    lineitems are not generically attribute annotatable, which typically requires
-    zodb persistence, instead to enable storage in other mediums, we use a specific
-    limited set of components that use annotations on line items, specifically the
-    workflow engine to enable fulfillment workflows on individual items.
+    lineitems are not generically attribute annotatable, which typically
+    requires zodb persistence, instead to enable storage in other mediums, we
+    use a specific limited set of components that use annotations on line
+    items, specifically the workflow engine to enable fulfillment workflows on
+    individual items.
     """
-    implements( interfaces.ILineItem, IAttributeAnnotatable )
-
+    implements(interfaces.ILineItem, IAttributeAnnotatable)
 
     # default attribute values, item_id is required and has no default
     name = ""
@@ -63,23 +63,24 @@ class LineItem( Persistent ):
     product_code = ""
 
     @property
-    def fulfillment_state( self ):
-        return IWorkflowState( self ).getState()
+    def fulfillment_state(self):
+        return IWorkflowState(self).getState()
 
     @property
-    def fulfillment_workflow( self ):
-        return IWorkflowInfo( self )
+    def fulfillment_workflow(self):
+        return IWorkflowInfo(self)
 
-    def clone( self ):
-        clone = self.__class__.__new__( self.__class__ )
-        clone.__setstate__( self.__getstate__() )
-        if ILocation.providedBy( clone ):
+    def clone(self):
+        clone = self.__class__.__new__(self.__class__)
+        clone.__setstate__(self.__getstate__())
+        if ILocation.providedBy(clone):
             del clone.__name__, clone.__parent__
         return clone
 
-class ShippableLineItem( LineItem ):
-    
-    implements( interfaces.IShippableLineItem )
+
+class ShippableLineItem(LineItem):
+
+    implements(interfaces.IShippableLineItem)
     weight = ""
     um_weight = ""
     um_distance = ""
@@ -87,26 +88,31 @@ class ShippableLineItem( LineItem ):
     height = ""
     width = ""
 
-class PayableLineItem( LineItem ):
+
+class PayableLineItem(LineItem):
     """
     an item in the cart for a payable
     """
-    implements( interfaces.IPayableLineItem )
+    implements(interfaces.IPayableLineItem)
 
     # required
     uid = None
 
-    def resolve( self ):
-        utility = component.getUtility( IIntIds )
-        return utility.queryObject( self.uid )
-        
-class PayableShippableLineItem( ShippableLineItem, PayableLineItem ):
+    def resolve(self):
+        utility = component.getUtility(IIntIds)
+        return utility.queryObject(self.uid)
+
+
+class PayableShippableLineItem(ShippableLineItem, PayableLineItem):
     """
     a shippable item in a cart for a payable
     """
 
-class RecurringLineItem( PayableLineItem ):
+
+class RecurringLineItem(PayableLineItem):
     """
     an item in the cart for a recurring payable
     """
-    implements( interfaces.IRecurringLineItem )
+    implements(interfaces.IRecurringLineItem)
+
+#EOF

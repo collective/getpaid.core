@@ -23,32 +23,38 @@
 
 from zope import interface, component
 
-from getpaid.core.interfaces import IStoreSettings, IShippableLineItem, IOrder
+from getpaid.core.interfaces import IStoreSettings, IOrder
 from getpaid.core.payment import Address, ContactInformation
 
 import interfaces
 
-class OriginRouter( object ):
 
-    component.adapts( IOrder )
-    interface.implements( interfaces.IOriginRouter )
-    
-    def __init__( self, context ):
+class OriginRouter(object):
+
+    component.adapts(IOrder)
+    interface.implements(interfaces.IOriginRouter)
+
+    def __init__(self, context):
         self.context = context
-            
-    def getStoreSettings( self ):
-        store_settings = component.getUtility( IStoreSettings )
-        contact = ContactInformation( name = ( store_settings.contact_company or store_settings.store_name ),
-                                      phone_number = store_settings.contact_phone,
-                                      email = store_settings.contact_email )
-                                      
-        address = Address( first_line = store_settings.contact_address,
-                           second_line = store_settings.contact_address2,
-                           city = store_settings.contact_city,
-                           state = store_settings.contact_state,
-                           postal_code = store_settings.contact_postalcode,
-                           country = store_settings.contact_country )
-        
+
+    def getStoreSettings(self):
+        store_settings = component.getUtility(IStoreSettings)
+        contact = ContactInformation(
+            name=(store_settings.contact_company or store_settings.store_name),
+            phone_number=store_settings.contact_phone,
+            email=store_settings.contact_email
+        )
+        address = Address(
+            first_line=store_settings.contact_address,
+            second_line=store_settings.contact_address2,
+            city=store_settings.contact_city,
+            state=store_settings.contact_state,
+            postal_code=store_settings.contact_postalcode,
+            country=store_settings.contact_country
+        )
+
         return contact, address
-        
+
     getOrigin = getStoreSettings
+
+#EOF
