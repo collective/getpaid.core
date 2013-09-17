@@ -53,7 +53,10 @@ def weightValidator(weight):
 
 
 def emailValidator(email):
-    if v_isemail(str(email)) is not 1:
+    try:
+        if v_isemail(str(email)) is not 1:
+            raise InvalidEmail(email)
+    except UnicodeEncodeError:
         raise InvalidEmail(email)
     return True
 
